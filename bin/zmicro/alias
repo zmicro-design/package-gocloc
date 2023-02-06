@@ -1,0 +1,45 @@
+#!/bin/bash
+
+export PACKAGE_NAME="gocloc"
+import "$ZMICRO_PACKAGES_PATH/$PACKAGE_NAME/config"
+import "$ZMICRO_PACKAGES_PATH/$PACKAGE_NAME/core"
+
+help() {
+  echo "Usage:"
+  echo "  zmicro gocloc <args ...>"
+  echo ""
+
+  gocloc --help
+}
+
+version() {
+  gocloc --version
+}
+
+core() {
+  # context directory
+  local context="$ZMICRO_PACKAGES_DATA_PATH/gocloc"
+  if [ ! -d "$context" ]; then
+    mkdir -p $context
+  fi
+  cd $context
+  # context directory
+
+  case $1 in
+  -h | --help | help)
+    help
+    ;;
+  -v | --version | version)
+    version
+    ;;
+  *)
+    gocloc "$@"
+    ;;
+  esac
+}
+
+run() {
+  core "$@"
+}
+
+run "$@"
